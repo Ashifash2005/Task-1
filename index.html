@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Personal Bucket List</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styles */
+        :root {
+            --primary-color: #1fb4a0;
+            --secondary-color: #572456;
+            --background-light: #f4f4f4;
+            --text-light: #333;
+            --background-dark: #1a1a1a;
+            --text-dark: #fff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--text-dark);
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        body.light-mode {
+            background: var(--background-light);
+            color: var(--text-light);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin: 20px 0;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Dark/Light Mode Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .theme-toggle i {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+        }
+
+        body.light-mode .theme-toggle i {
+            color: var(--text-light);
+        }
+
+        /* Bucket List Container */
+        .bucket-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        /* Bucket List Card */
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card:hover {
+            transform: translateY(-10px) rotateX(10deg) rotateY(10deg);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #ffcc00;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin: 10px 0;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: #ddd;
+        }
+
+        .card.completed {
+            background: rgba(0, 255, 0, 0.1);
+        }
+
+        .card.completed i {
+            color: #5eff02;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 80%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            width: 0;
+            background: #ffcc00;
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            width: 100%;
+            text-align: center;
+            animation: slideUp 1s ease-in-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        /* Custom Cursor */
+        body {
+            cursor: url('default-cursor.png'), auto;
+        }
+
+        .card, .theme-toggle {
+            cursor: url('pointer-cursor.png'), pointer;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .card {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </button>
+    <h1>My Personal Bucket List</h1>
+    <div class="bucket-list">
+        <div class="card" onclick="toggleCompletion(this)">
+            <i class="fas fa-mountain"></i>
+            <h3>Travel to Switzerland</h3>
+            <p>Explore the Swiss Alps and enjoy the scenic beauty.</p>
+        </div>
+        <div class="card" onclick="toggleCompletion(this)">
+            <i class="fas fa-car"></i>
+            <h3>Buy a Supercar</h3>
+            <p>Drive my dream car on the open road.</p>
+        </div>
+        <div class="card" onclick="toggleCompletion(this)">
+            <i class="fas fa-parachute-box"></i>
+            <h3>Go Skydiving in Dubai</h3>
+            <p>Experience the thrill of skydiving over the Palm Jumeirah.</p>
+        </div>
+        <div class="card" onclick="toggleCompletion(this)">
+            <i class="fas fa-globe"></i>
+            <h3>Travel Around the World</h3>
+            <p>Visit at least 50 countries and experience diverse cultures.</p>
+        </div>
+    </div>
+    <div class="progress-bar">
+        <div class="progress"></div>
+    </div>
+    <footer>
+        <p>© 2023 Created by Ashif  J H</p>
+    </footer>
+
+    <script>
+        // Dark/Light Mode Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const icon = document.querySelector('.theme-toggle i');
+            if (document.body.classList.contains('light-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
+
+        // Toggle Completion
+        function toggleCompletion(card) {
+            card.classList.toggle('completed');
+            updateProgress();
+        }
+
+        // Update Progress Bar
+        function updateProgress() {
+            const cards = document.querySelectorAll('.card');
+            const completedCards = document.querySelectorAll('.card.completed');
+            const progress = (completedCards.length / cards.length) * 100;
+            document.querySelector('.progress').style.width = ${progress}%;
+        }
+
+        // Fade-in Animation on Scroll
+        const cards = document.querySelectorAll('.card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        cards.forEach(card => observer.observe(card));
+    </script>
+</body>
+</html>
